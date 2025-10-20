@@ -4,7 +4,6 @@ import { NavLink } from "react-router";
 const resCategories = fetch("/categories.json").then((res) => res.json());
 const LeftAllCategories = () => {
   const fetchData = use(resCategories);
-  console.log(fetchData);
   return (
     <div>
       <h2 className="font-bold">All Categories</h2>

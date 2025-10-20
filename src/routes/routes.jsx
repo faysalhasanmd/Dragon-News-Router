@@ -6,6 +6,12 @@ import About from "../Pages/About";
 import Career from "../Pages/Career";
 import Categories from "../OutletPages/Categories";
 import Home from "../OutletPages/Home";
+import Login from "../Firebase/Login";
+import Register from "../Firebase/Register";
+import AuthRoot from "../Layout/AuthRoot";
+import NewsDetails from "../Pages/NewsDetails";
+import PrivateRoute from "../Layout/PrivateRoute";
+import Loading from "../Pages/Loading";
 
 export const router = createBrowserRouter([
   {
@@ -19,13 +25,24 @@ export const router = createBrowserRouter([
       {
         path: "/categories/:id",
         loader: () => fetch("/news.json"),
+        hydrateFallbackElement: <Loading></Loading>,
         element: <Categories></Categories>,
       },
     ],
   },
   {
-    path: "/authentication",
-    element: <Authentication></Authentication>,
+    path: "/auth",
+    element: <AuthRoot></AuthRoot>,
+    children: [
+      {
+        path: "/auth/login",
+        element: <Login></Login>,
+      },
+      {
+        path: "/auth/register",
+        element: <Register></Register>,
+      },
+    ],
   },
   {
     path: "/about",
@@ -36,7 +53,17 @@ export const router = createBrowserRouter([
     element: <Career></Career>,
   },
   {
-    path: "/news",
-    element: <News></News>,
+    path: "/news-details/:id",
+    loader: () => fetch("/news.json"),
+    hydrateFallbackElement: <Loading></Loading>,
+    element: (
+      <PrivateRoute>
+        <NewsDetails></NewsDetails>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "*",
+    element: <h1>Error 404</h1>,
   },
 ]);

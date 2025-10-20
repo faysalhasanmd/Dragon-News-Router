@@ -4,6 +4,7 @@ import { FaEye } from "react-icons/fa";
 import { FiShare2 } from "react-icons/fi";
 import News from "../Pages/News";
 import { CiBookmark } from "react-icons/ci";
+import { Link } from "react-router";
 
 const NewsCard = ({ card }) => {
   const formateDate = new Date(card.author.published_date).toLocaleDateString();
@@ -47,7 +48,12 @@ const NewsCard = ({ card }) => {
           {card.details.length > 200 ? (
             <>
               {card.details.slice(0, 200)}.
-              <span className="text-red-500">see more...</span>
+              <Link
+                to={`/news-details/${card.id}`}
+                className="text-red-500 hover:underline cursor-pointer"
+              >
+                see more...
+              </Link>
             </>
           ) : (
             card.details
